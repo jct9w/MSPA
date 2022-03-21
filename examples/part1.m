@@ -4,7 +4,7 @@
 
 % Refractive indices:
 n1 = 3.34;          % Lower cladding
-n2 = linspace(3.05,3.44,10);          % Core
+n2 = 3.44;          % Core
 n3 = 1.00;          % Upper cladding (air)
 
 % Layer heights:
@@ -14,7 +14,7 @@ h3 = 0.5;           % Upper cladding
 
 % Horizontal dimensions:
 rh = 1.1;           % Ridge height
-rw = 1.0;           % Ridge half-width
+rw = linspace(0.325,1,10);           % Ridge half-width
 side = 1.5;         % Space on side
 
 % Grid size:
@@ -24,14 +24,14 @@ dy = 0.0125;        % grid size (vertical)
 lambda = 1.55;      % vacuum wavelength
 nmodes = 1;         % number of modes to compute
 
-for n = 1: length(n2)
+for n = 1: length(rw)
     
-[x,y,xc,yc,nx,ny,eps,edges] = waveguidemesh([n1,n2(n),n3],[h1,h2,h3], ...
-                                            rh,rw,side,dx,dy); 
+[x,y,xc,yc,nx,ny,eps,edges] = waveguidemesh([n1,n2,n3],[h1,h2,h3], ...
+                                            rh,rw(n),side,dx,dy); 
 
 % First consider the fundamental TE mode:
 
-[Hx,Hy,neff] = wgmodes(lambda,n2(n),nmodes,dx,dy,eps,'000A');
+[Hx,Hy,neff] = wgmodes(lambda,n2,nmodes,dx,dy,eps,'000A');
 
 fprintf(1,'neff = %.6f\n',neff);
 
